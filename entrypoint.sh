@@ -3,15 +3,15 @@
 set -e
 set -x
 
-if [ -z "$INPUT_SOURCE_FOLDER" ]
+if [ -z "$INPUT_SOURCE_FILES" ]
 then
-  echo "Source folder must be defined"
+  echo "Source file must be defined"
   return -1
 fi
 
-if [ $INPUT_DESTINATION_HEAD_BRANCH == "main" ] || [ $INPUT_DESTINATION_HEAD_BRANCH == "master"]
+if [ $INPUT_DESTINATION_HEAD_BRANCH == "main" ] || [ $INPUT_DESTINATION_HEAD_BRANCH == "master"] || [ $INPUT_DESTINATION_HEAD_BRANCH == "qa"]
 then
-  echo "Destination head branch cannot be 'main' nor 'master'"
+  echo "Destination head branch cannot be 'main', 'master' or 'qa'"
   return -1
 fi
 
@@ -33,8 +33,18 @@ echo "Cloning destination git repository"
 git clone "https://$API_TOKEN_GITHUB@github.com/$INPUT_DESTINATION_REPO.git" "$CLONE_DIR"
 
 echo "Copying contents to git repo"
-mkdir -p $CLONE_DIR/$INPUT_DESTINATION_FOLDER/
-cp $INPUT_SOURCE_FOLDER "$CLONE_DIR/$INPUT_DESTINATION_FOLDER/"
+file_names=(${INPUT_SOURCE_FILES//;/ })
+files_length=${#file_names[@]}
+for i in "${file_names[@]}"
+do
+  tmp=${i//[^0-9.]/}
+  version=${tmp%?}
+  if [ ! -d "$CLONE_DIR/$INPUT_DESTINATION_FOLDER/dd-$version"];then
+   mkdir "$CLONE_DIR/$INPUT_DESTINATION_FOLDER/dd-$version" 
+  fi
+  cp "$INPUT_SOURCE_FOLDER/i" "$CLONE_DIR/$INPUT_DESTINATION_FOLDER/dd-$version" 
+done
+
 cd "$CLONE_DIR"
 git checkout -b "$INPUT_DESTINATION_HEAD_BRANCH"
 
