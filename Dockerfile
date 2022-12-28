@@ -7,5 +7,5 @@ RUN wget -q  https://api.github.com/repos/cli/cli/releases/latest \
     && mv gh*/bin/gh /usr/local/bin/ \
     && rm -fr *
 
-ADD entrypoint.sh entrypoint.sh
-ENTRYPOINT /bin/sh -c ./entrypoint.sh
+ADD entrypoint.sh /entrypoint.sh
+ENTRYPOINT [/entrypoint.sh]
