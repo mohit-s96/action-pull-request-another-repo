@@ -42,7 +42,7 @@ do
   if [ ! -d "$CLONE_DIR/$INPUT_DESTINATION_FOLDER/dd-$version"];then
    mkdir "$CLONE_DIR/$INPUT_DESTINATION_FOLDER/dd-$version" 
   fi
-  cp "$INPUT_SOURCE_FOLDER/i" "$CLONE_DIR/$INPUT_DESTINATION_FOLDER/dd-$version" 
+  cp "$INPUT_SOURCE_FOLDER/$i" "$CLONE_DIR/$INPUT_DESTINATION_FOLDER/dd-$version" 
 done
 
 cd "$CLONE_DIR"
