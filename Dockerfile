@@ -6,6 +6,7 @@ RUN wget -q  https://api.github.com/repos/cli/cli/releases/latest \
     && tar -xvzf gh*.tar.gz \
     && mv gh*/bin/gh /usr/local/bin/ \
     && rm -fr *
+SHELL ["/bin/bash", "-c"] 
 
 ADD entrypoint.sh /entrypoint.sh
 ENTRYPOINT [ "/bin/bash", "/entrypoint.sh" ]
