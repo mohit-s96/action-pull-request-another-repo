@@ -43,8 +43,7 @@ do
   echo "Ignoring file ${file_name}"
   continue
   fi
-  tmp=${file_name//[^0-9.]/}
-  version=${tmp%?}
+  version=$(sed -E 's/.*-([[:digit:]]+\.[[:digit:]]+).*/\1/' <<< "$file_name")
   if [ ! -d "$CLONE_DIR/$INPUT_DESTINATION_FOLDER/dd-$version"];then
    mkdir "$CLONE_DIR/$INPUT_DESTINATION_FOLDER/dd-$version" 
   fi
