@@ -37,7 +37,7 @@ IFS=';'
 read -r -a array <<< "$INPUT_SOURCE_FILES"
 for i in "${array[@]}"
 do
-  file_name=$(basename "$string")
+  file_name=$(basename "$i")
   if [[ ! "$file_name" =~ source-file-[[:digit:]]\.[[:digit:]].report.txt ]]; then
   # If the string doesn't matches the pattern, print a message and skip it
   echo "Ignoring file ${file_name}"
