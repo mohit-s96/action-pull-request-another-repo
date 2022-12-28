@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 set -e
 set -x
@@ -33,7 +33,7 @@ echo "Cloning destination git repository"
 git clone "https://$API_TOKEN_GITHUB@github.com/$INPUT_DESTINATION_REPO.git" "$CLONE_DIR"
 
 echo "Copying contents to git repo"
-file_names=(${INPUT_SOURCE_FILES//;/ })
+file_names=${INPUT_SOURCE_FILES//;/ }
 files_length=${#file_names[@]}
 for i in "${file_names[@]}"
 do
