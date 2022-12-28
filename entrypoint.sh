@@ -33,16 +33,22 @@ echo "Cloning destination git repository"
 git clone "https://$API_TOKEN_GITHUB@github.com/$INPUT_DESTINATION_REPO.git" "$CLONE_DIR"
 
 echo "Copying contents to git repo"
-file_names=${INPUT_SOURCE_FILES//;/ }
-files_length=${#file_names[@]}
-for i in "${file_names[@]}"
+IFS=';'
+read -r -a array <<< "$INPUT_SOURCE_FILES"
+for i in "${array[@]}"
 do
-  tmp=${i//[^0-9.]/}
+  file_name=$(basename "$string")
+  if [[ ! "$file_name" =~ source-file-[[:digit:]]\.[[:digit:]].report.txt ]]; then
+  # If the string doesn't matches the pattern, print a message and skip it
+  echo "Ignoring file ${file_name}"
+  continue
+  fi
+  tmp=${file_name//[^0-9.]/}
   version=${tmp%?}
   if [ ! -d "$CLONE_DIR/$INPUT_DESTINATION_FOLDER/dd-$version"];then
    mkdir "$CLONE_DIR/$INPUT_DESTINATION_FOLDER/dd-$version" 
   fi
-  cp "$INPUT_SOURCE_FOLDER/$i" "$CLONE_DIR/$INPUT_DESTINATION_FOLDER/dd-$version" 
+  cp "$INPUT_SOURCE_FOLDER/$file_name" "$CLONE_DIR/$INPUT_DESTINATION_FOLDER/dd-$version/$INPUT_TARGET_FILE_NAME" 
 done
 
 cd "$CLONE_DIR"
