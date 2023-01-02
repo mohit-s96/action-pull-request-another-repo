@@ -51,8 +51,6 @@ do
 done
 
 cd "$CLONE_DIR"
-git config credential.helper store
-echo "https://${INPUT_USER_NAME}:${GITHUB_TOKEN}@github.com" > ~/.git-credentials
 git checkout -b "$INPUT_DESTINATION_HEAD_BRANCH"
 
 echo "Adding git commit"
@@ -61,7 +59,7 @@ if git status | grep -q "Changes to be committed"
 then
   git commit --message "Update from https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA"
   echo "Pushing git commit"
-  git push -u origin HEAD:$INPUT_DESTINATION_HEAD_BRANCH
+  git push --set-upstream origin $INPUT_DESTINATION_HEAD_BRANCH
   echo "Creating a pull request"
   gh pr create -t $INPUT_DESTINATION_HEAD_BRANCH \
                -b $INPUT_DESTINATION_HEAD_BRANCH \
