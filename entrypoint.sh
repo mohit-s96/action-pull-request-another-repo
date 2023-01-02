@@ -15,12 +15,7 @@ then
   return -1
 fi
 
-if [ -z "$INPUT_PULL_REQUEST_REVIEWERS" ]
-then
-  PULL_REQUEST_REVIEWERS=$INPUT_PULL_REQUEST_REVIEWERS
-else
-  PULL_REQUEST_REVIEWERS='-r '$INPUT_PULL_REQUEST_REVIEWERS
-fi
+PULL_REQUEST_REVIEWERS=$INPUT_PULL_REQUEST_REVIEWERS
 
 CLONE_DIR=$(mktemp -d)
 
@@ -65,7 +60,7 @@ then
                -b $INPUT_DESTINATION_HEAD_BRANCH \
                -B $INPUT_DESTINATION_BASE_BRANCH \
                -H $INPUT_DESTINATION_HEAD_BRANCH \
-                  $PULL_REQUEST_REVIEWERS
+               -r $PULL_REQUEST_REVIEWERS
 else
   echo "No changes detected"
 fi
